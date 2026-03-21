@@ -96,15 +96,23 @@ export class UserService {
     const newRefreshToken:string = generateRefreshToken(decoded.userId);
     await this.prisma.session.updateMany({
       where: {
-        
-           token: refreshToken ,
-            userId: decoded.userId
+        token: refreshToken,
+        userId: decoded.userId,
       },
       data: {
-        token: newRefreshToken
-      }
+        token: newRefreshToken,
+      },
     });
+    
     return { accessToken, refreshToken: newRefreshToken };
 
+  }
+  async logoutUser(userId:string, refreshToken:string):Promise<void>{
+    await this.prisma.session.deleteMany({
+      where:{
+        token: refreshToken,
+        userId
+      }
+    })
   }
 }

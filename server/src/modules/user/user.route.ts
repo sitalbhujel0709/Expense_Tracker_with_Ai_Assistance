@@ -9,5 +9,7 @@ const userController = new UserController()
 userRouter.post('/register',userController.registerUser);
 userRouter.post('/login',userController.loginUser)
 userRouter.get('/profile',requireAuth,userController.getUserProfile)
+userRouter.post('/logout',requireAuth,userController.logoutUser);
+userRouter.post('/refresh',userController.refreshAccessToken);
 
 export default userRouter;
