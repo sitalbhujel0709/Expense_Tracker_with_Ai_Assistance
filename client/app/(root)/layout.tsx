@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppSidebar } from "@/components/web/app-sidebar";
+import { UserProvider } from "@/components/web/user-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,27 +38,21 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="antialiased">
-        <ThemeProvider
-          attribute="data-theme"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <TooltipProvider>
-            <SidebarProvider>
-              <AppSidebar />
-              <SidebarInset>
-                <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur-sm">
-                  <SidebarTrigger className="-ml-1" />
-                  <h1 className="text-sm font-medium text-muted-foreground">
-                    Overview
-                  </h1>
-                </header>
-                <main className="flex-1 p-4 md:p-6">{children}</main>
-              </SidebarInset>
-            </SidebarProvider>
-          </TooltipProvider>
-        </ThemeProvider>
+        <UserProvider>
+          <ThemeProvider
+            attribute="data-theme"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TooltipProvider>
+              <SidebarProvider>
+                <AppSidebar />
+                <main className="flex-1 p-4 md:px-8">{children}</main>
+              </SidebarProvider>
+            </TooltipProvider>
+          </ThemeProvider>
+        </UserProvider>
       </body>
     </html>
   );

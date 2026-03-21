@@ -1,7 +1,7 @@
 "use client";
 
 import axiosInstance from "@/lib/axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface UserContextType {
   id: string;
@@ -11,6 +11,10 @@ interface UserContextType {
   budget: any;
 }
 
+interface UserProfileResponse {
+  user: UserContextType;
+}
+
 const UserContext = createContext<{ user: UserContextType | null; loading: boolean } | null>(null);
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user,setUser] = useState<UserContextType | null>(null);
@@ -18,8 +22,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(()=>{
     const fetchUser = async ()=>{
       try {
-        const response = await axiosInstance.get("/user/profile");
-        setUser(response.data as UserContextType);
+        const response = await axiosInstance.get<UserProfileResponse>("/users/profile");
+        setUser(response.data.user);
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
       } finally {
@@ -33,4 +37,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
     </UserContext.Provider>
   )
+}
+
+export const useUser = ()=> {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+  return context;
 }
