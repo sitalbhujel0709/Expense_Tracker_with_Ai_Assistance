@@ -8,8 +8,9 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { AppSidebar } from "@/components/web/app-sidebar";
+import { AppSidebar, routePaths } from "@/components/web/app-sidebar";
 import { UserProvider } from "@/components/web/user-provider";
+import { DynamicBreadcrumb } from "@/components/web/dynamic-breadcrumb";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,7 +49,12 @@ export default function RootLayout({
             <TooltipProvider>
               <SidebarProvider>
                 <AppSidebar />
-                <main className="flex-1 p-4 md:px-8">{children}</main>
+                <SidebarInset>
+                  <header className="h-16 flex items-center pl-10 border-b shadow-xs">
+                    <DynamicBreadcrumb/>
+                  </header>
+                  <main className="p-4">{children}</main>
+                </SidebarInset>
               </SidebarProvider>
             </TooltipProvider>
           </ThemeProvider>

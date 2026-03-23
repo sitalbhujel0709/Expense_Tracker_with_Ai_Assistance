@@ -28,7 +28,7 @@ export class UserController {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 30 * 1000
+        maxAge: 60 * 60 * 1000
       })
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
@@ -66,7 +66,7 @@ export class UserController {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 30 * 1000
+        maxAge: 60 * 60 * 1000
       });
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,

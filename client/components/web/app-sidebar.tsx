@@ -21,23 +21,34 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { useUser } from "./user-provider";
 import axiosInstance from "@/lib/axios";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { BudgetModal } from "./budget-modal";
 
 const menuItems = [
   { title: "Dashboard", icon: LayoutDashboard, url: "/" },
   { title: "Transactions", icon: CreditCard, url: "/transactions" },
 ];
+ 
+export const routePaths:Record<string,string> = {
+  "/": "Dashboard",
+  "/transactions": "Transactions",
+}
 
 export function AppSidebar() {
   const { state, toggleSidebar } = useSidebar();
   const { user } = useUser();
   const redirect = useRouter();
+  const pathname = usePathname();
   const isCollapsed = state === "collapsed";
   const logout = async (): Promise<void> => {
     const response = await axiosInstance.post("/users/logout");
     console.log(response.data);
     redirect.push("/login");
   };
+
+  if (!user?.budget) {
+    return <BudgetModal />;
+  }
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="py-4 relative">
@@ -56,7 +67,7 @@ export function AppSidebar() {
           variant={"ghost"}
           size={"icon-sm"}
           onClick={toggleSidebar}
-          className="absolute top-4 -right-7 shadow-md rounded-full hover:bg-emerald-100"
+          className="absolute top-4 -right-8 shadow-sm rounded-full hover:bg-emerald-100"
         >
           {isCollapsed ? (
             <ChevronRight className="size-4 text-emerald-700" />
@@ -69,49 +80,56 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {menuItems.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton
-                  asChild
-                  tooltip={item.title}
-                  className="hover:bg-emerald-50 hover:text-emerald-700 active:bg-emerald-100"
-                >
-                  <Link
-                    href={item.url}
-                    className="flex items-center gap-3 text-emerald-700"
+            {menuItems.map((item) => {
+              const isActive = pathname === item.url;
+              return (
+                <SidebarMenuItem key={item.title} >
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={item.title}
+                    data-active={isActive ? "true" : undefined}
+                    className="hover:bg-emerald-50 hover:text-emerald-700 active:bg-emerald-100
+                     data-[active=true]:bg-emerald-100 data-[active=true]:text-emerald-700"
                   >
-                    <item.icon className="shrink-0 size-5" />
-                    {/* Only hide the text, keep the button/icon visible */}
-                    <span className="group-data-[collapsible=icon]:hidden">
-                      {item.title}
-                    </span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+                    <Link
+                      href={item.url}
+                      className="flex items-center gap-3 text-emerald-700"
+                    >
+                      <item.icon className="shrink-0 size-5" />
+                      {/* Only hide the text, keep the button/icon visible */}
+                      <span className="group-data-[collapsible=icon]:hidden">
+                        {item.title}
+                      </span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="group-data-[collapsible=icon]:text-center">
-        <div className="flex gap-3 border items-center">
-          <div className="w-10 h-10 rounded-full flex items-center justify-center bg-emerald-100 text-emerald-700 font-semibold">
+      <SidebarFooter className="group-data-[collapsible=icon]:text-center border-t">
+        <div className="flex gap-3 items-center">
+          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-emerald-100 text-emerald-700 font-semibold">
             {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
           </div>
-          <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-            <p className="text-sm font-semibold text-emerald-700">
-              {user?.name}
-            </p>
-            <p className="text-xs text-muted-foreground">{user?.email}</p>
+          <div className="group-data-[collapsible=icon]:hidden flex-1 flex justify-between">
+            <div className="flex flex-col ">
+              <p className="text-sm font-semibold text-emerald-700">
+                {user?.name}
+              </p>
+              <p className="text-xs text-muted-foreground">{user?.email}</p>
+            </div>
+            <Button
+              onClick={logout}
+              variant={"ghost"}
+              size={"icon"}
+              className="ml-2 cursor-pointer group-data-[collapsible=icon]:hidden"
+            >
+              <LogOut className="size-4 text-emerald-700" />
+            </Button>
           </div>
-          <Button
-            onClick={logout}
-            variant={"ghost"}
-            size={"icon"}
-            className="ml-2 cursor-pointer group-data-[collapsible=icon]:hidden"
-          >
-            <LogOut className="size-4 text-emerald-700" />
-          </Button>
         </div>
       </SidebarFooter>
     </Sidebar>
