@@ -23,6 +23,7 @@ import { useUser } from "./user-provider";
 import axiosInstance from "@/lib/axios";
 import { usePathname, useRouter } from "next/navigation";
 import { BudgetModal } from "./budget-modal";
+import { SpinnerCustom } from "./custom-spinner";
 
 const menuItems = [
   { title: "Dashboard", icon: LayoutDashboard, url: "/" },
@@ -36,7 +37,7 @@ export const routePaths:Record<string,string> = {
 
 export function AppSidebar() {
   const { state, toggleSidebar } = useSidebar();
-  const { user } = useUser();
+  const { user,loading } = useUser();
   const redirect = useRouter();
   const pathname = usePathname();
   const isCollapsed = state === "collapsed";
@@ -46,6 +47,10 @@ export function AppSidebar() {
     redirect.push("/login");
   };
 
+  if(loading){
+
+    return <SpinnerCustom/>
+  }
   if (!user?.budget) {
     return <BudgetModal />;
   }
