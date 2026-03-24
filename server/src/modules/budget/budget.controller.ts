@@ -31,4 +31,14 @@ export class BudgetController {
       res.status(500).json({ message: error instanceof Error ? error.message : "Internal Server Error" });
     }
   }
+  deleteBudget = async (req: Request, res: Response) => {
+    const userId = (req as any).userId;
+    try {
+      await this.budgetService.deleteBudget(userId);
+      res.status(200).json({ message: "Budget deleted successfully" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error instanceof Error ? error.message : "Internal Server Error" });
+    }
+  }
 }

@@ -51,7 +51,7 @@ export class UserService {
       }
     })
 
-    return { accessToken,refreshToken }
+    return { accessToken, refreshToken }
   }
 
   async getUserProfile(userId: string): Promise<Partial<User> & { budget: Budget | null }> {
@@ -78,22 +78,22 @@ export class UserService {
   }
 
   async refreshAccessToken(refreshToken: string): Promise<{ accessToken: string, refreshToken: string }> {
-    const decoded:any = jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY!);
+    const decoded: any = jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY!);
     const session = await this.prisma.session.findFirst({
-      where:{
-        AND:[
+      where: {
+        AND: [
           { token: refreshToken },
           { expiresAt: { gt: new Date() } },
           { userId: decoded.userId }
         ]
-       
+
       }
     })
-    if(!session){
+    if (!session) {
       throw new Error("Invalid refresh token");
     }
     const accessToken = generateAccessToken(decoded.userId);
-    const newRefreshToken:string = generateRefreshToken(decoded.userId);
+    const newRefreshToken: string = generateRefreshToken(decoded.userId);
     await this.prisma.session.updateMany({
       where: {
         token: refreshToken,
@@ -103,13 +103,39 @@ export class UserService {
         token: newRefreshToken,
       },
     });
-    
+
     return { accessToken, refreshToken: newRefreshToken };
 
   }
-  async logoutUser(userId:string, refreshToken:string):Promise<void>{
+  async updateUserProfile(
+    userId: string,
+    data: Partial<User>
+  ): Promise<Partial<User> & { budget: Budget | null }> {
+
+    const user = await this.prisma.user.update({
+      where: {
+        id: userId
+      },
+      data: {
+        ...(data.name !== undefined && { name: data.name }),
+        ...(data.email !== undefined && { email: data.email }),
+      },
+      include: {
+        budget: true
+      }
+    });
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      createdAt: user.createdAt,
+      budget: user.budget
+    };
+  }
+  async logoutUser(userId: string, refreshToken: string): Promise<void> {
     await this.prisma.session.deleteMany({
-      where:{
+      where: {
         token: refreshToken,
         userId
       }

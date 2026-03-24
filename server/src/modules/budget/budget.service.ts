@@ -38,4 +38,11 @@ export class BudgetService {
       }
     })
   }
+  async deleteBudget(userId: string): Promise<Budget | null>{
+    return await this.prisma.budget.delete({
+      where: {
+        userId
+      }
+    })
+  }
 }

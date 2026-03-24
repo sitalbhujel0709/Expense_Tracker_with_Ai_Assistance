@@ -11,5 +11,5 @@ userRouter.post('/login',userController.loginUser)
 userRouter.get('/profile',requireAuth,userController.getUserProfile)
 userRouter.post('/logout',requireAuth,userController.logoutUser);
 userRouter.post('/refresh',userController.refreshAccessToken);
-
+userRouter.put('/profile',requireAuth,userController.updateUserProfile);
 export default userRouter;

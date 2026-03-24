@@ -8,5 +8,6 @@ const budgetController = new BudgetController();
 
 budgetRouter.post('/set',requireAuth,budgetController.setBudget)
 budgetRouter.get('/get',requireAuth,budgetController.getBudget)
+budgetRouter.delete('/delete',requireAuth,budgetController.deleteBudget)
 
 export default budgetRouter;

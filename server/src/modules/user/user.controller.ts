@@ -81,6 +81,30 @@ export class UserController {
 
     }
   }
+
+  updateUserProfile = async (req:Request, res: Response):Promise<void | Response> => {
+    const userId = (req as any).userId;
+    const { name, email } = req.body;
+
+    const updateData: { name?: string, email?: string } = {};
+    if (name){
+      updateData.name = name;
+    }
+    if (email){
+      updateData.email = email;
+    }
+    if(Object.keys(updateData).length === 0){
+      return res.status(400).json({ message: "At least one field (name or email) must be provided for update" });
+    }
+    try {
+      const updatedUserProfile = await this.userService.updateUserProfile(userId, updateData);
+      res.status(200).json({ user: updatedUserProfile });
+    } catch (error) {
+      console.error("Update user profile error:", error instanceof Error ? error.message : error);
+      res.status(500).json({ message: error instanceof Error ? error.message : "Internal server error" });
+    }
+  }
+
   logoutUser = async (req: Request, res: Response): Promise<Response | void> => {
     try {
       await this.userService.logoutUser((req as any).userId, req.cookies.refreshToken);
