@@ -33,6 +33,7 @@ const menuItems = [
 export const routePaths:Record<string,string> = {
   "/": "Dashboard",
   "/transactions": "Transactions",
+  "/profile": "Profile"
 }
 
 export function AppSidebar() {
@@ -115,7 +116,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="group-data-[collapsible=icon]:text-center border-t">
-        <div className="flex gap-3 items-center">
+        <Link href={'/profile'} className="flex gap-3 items-center">
           <div className="w-8 h-8 rounded-full flex items-center justify-center bg-emerald-100 text-emerald-700 font-semibold">
             {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
           </div>
@@ -135,7 +136,7 @@ export function AppSidebar() {
               <LogOut className="size-4 text-emerald-700" />
             </Button>
           </div>
-        </div>
+        </Link>
       </SidebarFooter>
     </Sidebar>
   );
