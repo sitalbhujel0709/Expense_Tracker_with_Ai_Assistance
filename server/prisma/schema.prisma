@@ -12,6 +12,13 @@ datasource db {
   provider = "postgresql"
 }
 
+enum ExpenseCategory{
+  FOOD
+  TRANSPORT
+  ENTERTAINMENT
+  UTILITIES
+  OTHER
+} 
 
 model User {
   id String @id @default(uuid())
@@ -29,7 +36,7 @@ model Expense {
   id String @id @default(uuid())
   amount Float
   description String
-  category String
+  category ExpenseCategory @default(UTILITIES)
   date DateTime
   userId String
   budgetId String
