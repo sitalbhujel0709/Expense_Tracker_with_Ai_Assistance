@@ -49,6 +49,7 @@ export async function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/",           // protect the homepage
+    "/",     
+    "/transactions"      // protect the homepage
   ],
 };

@@ -9,7 +9,7 @@ export class TransactionController {
     const { amount, description, date, category } = req.body;
     const userId = (req as any).userId;
     try {
-      const transaction = await this.transactionService.createTransaction(userId, amount, description, new Date(date), category);
+      const transaction = await this.transactionService.createTransaction(userId, Number(amount), description, new Date(date), category);
       res.status(201).json(transaction);
     } catch (error) {
       console.log(error instanceof Error ? error.message : error);
