@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -10,6 +9,7 @@ import {
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 
 import { TransactionDeleteButton } from "./transaction-delete-button";
+import { PaginationSection } from "./Pagination-section";
 
 interface dataProps {
   id: string;
@@ -19,7 +19,19 @@ interface dataProps {
   description: string;
 }
 
-export const TransactionTable = ({ data }: { data: dataProps[] }) => {
+interface PaginationProps {
+  currentPage: number;
+  limit: number;
+  hasNextPage: boolean;
+}
+
+export const TransactionTable = ({
+  data,
+  pagination,
+}: {
+  data: dataProps[];
+  pagination: PaginationProps;
+}) => {
  
   return (
     <div className="max-w-3xl w-full">
@@ -39,28 +51,40 @@ export const TransactionTable = ({ data }: { data: dataProps[] }) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((transaction: dataProps) => (
-                <TableRow key={transaction.id}>
-                  <TableCell>
-                    {new Date(transaction.date).toLocaleDateString(undefined, {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </TableCell>
-                  <TableCell>{transaction.amount}</TableCell>
-                  <TableCell>{transaction.category}</TableCell>
-                  <TableCell>{transaction.description}</TableCell>
-                  <TableCell>
-                    <TransactionDeleteButton transactionId={transaction.id}/>
+              {data.length > 0 ? (
+                data.map((transaction: dataProps) => (
+                  <TableRow key={transaction.id}>
+                    <TableCell>
+                      {new Date(transaction.date).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </TableCell>
+                    <TableCell>{transaction.amount}</TableCell>
+                    <TableCell>{transaction.category}</TableCell>
+                    <TableCell>{transaction.description}</TableCell>
+                    <TableCell>
+                      <TransactionDeleteButton transactionId={transaction.id}/>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center text-muted-foreground">
+                    No transactions found.
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </CardContent>
         <CardFooter>
-          
+          <PaginationSection
+            currentPage={pagination.currentPage}
+            limit={pagination.limit}
+            hasNextPage={pagination.hasNextPage}
+          />
         </CardFooter>
       </Card>
     </div>
