@@ -1,0 +1,18 @@
+# pnpm specific
+node_modules
+.pnpm-store
+pnpm-lock.yaml
+pnpm-debug.log*
+
+# Next.js build output
+.next
+out
+
+# Environment files
+.env*
+!.env.example
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
