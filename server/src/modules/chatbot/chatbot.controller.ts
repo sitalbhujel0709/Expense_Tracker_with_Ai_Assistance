@@ -9,7 +9,7 @@ export class ChatBotController {
     const { question } = req.body;
     try {
       const answer = await this.chatBotService.askQuestion(userId,question);
-      res.json({ answer })
+      res.json({role:"assistant", answer });
     } catch (error) {
       console.log("Error in ChatBotController.askQuestion:", error);
       res.status(500).json({ error: "Failed to get answer from chatbot" });
