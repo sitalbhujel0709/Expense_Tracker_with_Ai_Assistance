@@ -12,6 +12,9 @@ import { AppSidebar, routePaths } from "@/components/web/app-sidebar";
 import { UserProvider } from "@/components/web/user-provider";
 import { DynamicBreadcrumb } from "@/components/web/dynamic-breadcrumb";
 import { Toaster } from "@/components/ui/sonner";
+import { ChatbotToggleButton } from "@/components/web/chatbot-toggle-button";
+import { ChatWidget } from "@/components/web/chat-widget";
+import { ChatAction } from "@/components/web/chat-action-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,10 +54,13 @@ export default function RootLayout({
               <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>
-                  <header className="h-16 flex items-center pl-10 border-b shadow-xs">
+                  <header className="h-16 flex items-center pl-10 border-b justify-between shadow-xs">
                     <DynamicBreadcrumb/>
+                    <ChatAction />
                   </header>
-                  <main className="p-4">{children}</main>
+                  <main className="p-4">
+                    {children}
+                  </main>
                 </SidebarInset>
               </SidebarProvider>
             </TooltipProvider>
