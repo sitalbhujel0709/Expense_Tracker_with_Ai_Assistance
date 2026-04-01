@@ -7,7 +7,8 @@ import AppRouter from "./Routes/index.js";
 const app:Express = express();
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000","http://localhost:3001"],
+
   credentials: true
 }))
 app.use(cookieParser());

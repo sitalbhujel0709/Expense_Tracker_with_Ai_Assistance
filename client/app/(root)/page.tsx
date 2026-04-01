@@ -6,7 +6,7 @@ import React from 'react'
 
 const page = async () => {
 
-  const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions/summary`)
+  const res = await fetchWithAuth(`${process.env.API_BASE_URL_INTERNAL}/transactions/summary`)
   const data = await res.json()
 
   return (

@@ -19,7 +19,7 @@ export async function proxy(req: NextRequest) {
   if (refreshToken) {
     try {
       // Call your backend refresh endpoint (must be on the same domain or CORS configured)
-      const refreshRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/refresh`, {
+      const refreshRes = await fetch(`${process.env.API_BASE_URL_INTERNAL}/users/refresh`, {
         method: "POST",
         headers: {
           Cookie: `refreshToken=${refreshToken}`, // Send refresh token as cookie

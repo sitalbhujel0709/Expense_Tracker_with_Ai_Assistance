@@ -46,7 +46,7 @@ export default function RootLayout({
         <UserProvider>
           <ThemeProvider
             attribute="data-theme"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >

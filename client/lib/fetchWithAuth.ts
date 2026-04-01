@@ -99,7 +99,7 @@ export async function fetchWithAuth(
   // If unauthorized, try refresh once then retry the original request.
   if (res.status === 401 && refreshToken) {
     const refreshRes = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/refresh`,
+      `${process.env.API_BASE_URL_INTERNAL}/users/refresh`,
       {
         method: "POST",
         headers: {
