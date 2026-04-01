@@ -1,141 +1,217 @@
-# Expense Tracker 2 - Project Folder Structure
+# Expense Tracker 2
+
+A full-stack expense tracking application built with Next.js (App Router), Express, Prisma, and PostgreSQL.
+
+## Overview
+
+This project contains:
+
+- A frontend app (`client`) built with Next.js, TypeScript, Tailwind CSS, and shadcn/ui.
+- A backend API (`server`) built with Express, TypeScript, Prisma, and PostgreSQL.
+- Cookie-based authentication with access and refresh token flow.
+- Transaction, budget, profile, and AI chatbot features.
+- Docker Compose setup for running frontend, backend, and database together.
+
+## Key Features
+
+- User registration, login, logout, and profile update
+- Access token refresh using refresh token cookies
+- Budget management (set/get/delete)
+- Transaction management (create/list/delete)
+- Transaction summary dashboard and charts
+- Chat assistant endpoint for finance questions
+- Dark/light/system theme support
+
+## Tech Stack
+
+- Frontend: Next.js 16, React 19, TypeScript, Tailwind CSS 4, shadcn/ui, Axios
+- Backend: Node.js, Express 5, TypeScript, Prisma 7
+- Database: PostgreSQL 18
+- Containerization: Docker, Docker Compose
+
+## Main Folder Structure
 
 ```text
 Expense Tracker 2/
 ├── client/
-│   ├── components.json
-│   ├── eslint.config.mjs
-│   ├── next-env.d.ts
-│   ├── next.config.ts
-│   ├── package.json
-│   ├── pnpm-lock.yaml
-│   ├── pnpm-workspace.yaml
-│   ├── postcss.config.mjs
-│   ├── proxy.ts
-│   ├── README.md
-│   ├── tsconfig.json
 │   ├── app/
-│   │   ├── globals.css
 │   │   ├── (auth)/
-│   │   │   ├── layout.tsx
-│   │   │   ├── login/
-│   │   │   │   └── page.tsx
-│   │   │   └── register/
-│   │   │       └── page.tsx
 │   │   └── (root)/
-│   │       ├── layout.tsx
-│   │       ├── page.tsx
-│   │       ├── profile/
-│   │       │   └── page.tsx
-│   │       └── transactions/
-│   │           └── page.tsx
 │   ├── components/
 │   │   ├── ui/
-│   │   │   ├── avatar.tsx
-│   │   │   ├── badge.tsx
-│   │   │   ├── breadcrumb.tsx
-│   │   │   ├── button.tsx
-│   │   │   ├── card.tsx
-│   │   │   ├── chart.tsx
-│   │   │   ├── dropdown-menu.tsx
-│   │   │   ├── field.tsx
-│   │   │   ├── input.tsx
-│   │   │   ├── label.tsx
-│   │   │   ├── pagination.tsx
-│   │   │   ├── separator.tsx
-│   │   │   ├── sheet.tsx
-│   │   │   ├── sidebar.tsx
-│   │   │   ├── skeleton.tsx
-│   │   │   ├── sonner.tsx
-│   │   │   ├── spinner.tsx
-│   │   │   ├── table.tsx
-│   │   │   └── tooltip.tsx
 │   │   └── web/
-│   │       ├── app-sidebar.tsx
-│   │       ├── budget-modal.tsx
-│   │       ├── card-section.tsx
-│   │       ├── custom-spinner.tsx
-│   │       ├── dynamic-breadcrumb.tsx
-│   │       ├── Pagination-section.tsx
-│   │       ├── theme-provider.tsx
-│   │       ├── theme-toggle.tsx
-│   │       ├── transaction-chart.tsx
-│   │       ├── transaction-delete-button.tsx
-│   │       ├── transaction-form.tsx
-│   │       ├── transaction-table.tsx
-│   │       ├── update-profile.tsx
-│   │       └── user-provider.tsx
 │   ├── hooks/
-│   │   └── use-mobile.ts
 │   ├── lib/
-│   │   ├── axios.ts
-│   │   ├── fetchWithAuth.ts
-│   │   └── utils.ts
-│   └── public/
+│   ├── public/
+│   ├── .env.example
+│   ├── Dockerfile
+│   └── package.json
 ├── server/
-│   ├── docker-compose.yml
-│   ├── package.json
-│   ├── pnpm-lock.yaml
-│   ├── prisma.config.ts
-│   ├── tsconfig.json
-│   ├── db_data/
-│   │   └── 18/
-│   │       └── docker/
-│   │           ├── pg_hba.conf
-│   │           ├── pg_ident.conf
-│   │           ├── PG_VERSION
-│   │           ├── postgresql.auto.conf
-│   │           ├── postgresql.conf
-│   │           ├── postmaster.opts
-│   │           ├── postmaster.pid
-│   │           ├── base/
-│   │           ├── global/
-│   │           ├── pg_commit_ts/
-│   │           ├── pg_dynshmem/
-│   │           ├── pg_logical/
-│   │           ├── pg_multixact/
-│   │           ├── pg_notify/
-│   │           ├── pg_replslot/
-│   │           ├── pg_serial/
-│   │           ├── pg_snapshots/
-│   │           ├── pg_stat/
-│   │           ├── pg_stat_tmp/
-│   │           ├── pg_subtrans/
-│   │           ├── pg_tblspc/
-│   │           └── ...
-│   ├── generated/
-│   │   └── prisma/
-│   │       ├── browser.ts
-│   │       ├── client.ts
-│   │       ├── commonInputTypes.ts
-│   │       ├── enums.ts
-│   │       ├── models.ts
-│   │       ├── internal/
-│   │       └── models/
 │   ├── prisma/
 │   │   ├── schema.prisma
 │   │   └── migrations/
-│   │       ├── migration_lock.toml
-│   │       ├── 20260317150119_schema_build/
-│   │       ├── 20260317150807/
-│   │       └── 20260325064452_changed_something_in_db/
-│   └── src/
-│       ├── app.ts
-│       ├── index.ts
-│       ├── lib/
-│       │   ├── prisma.ts
-│       │   └── utils/
-│       ├── middleware/
-│       │   └── requireAuth.ts
-│       ├── modules/
-│       │   ├── budget/
-│       │   ├── transactions/
-│       │   └── user/
-│       └── Routes/
-│           └── index.ts
-└── .git/
+│   ├── generated/
+│   │   └── prisma/
+│   ├── src/
+│   │   ├── app.ts
+│   │   ├── index.ts
+│   │   ├── Routes/
+│   │   ├── middleware/
+│   │   └── modules/
+│   │       ├── user/
+│   │       ├── budget/
+│   │       ├── transactions/
+│   │       └── chatbot/
+│   ├── .env.example
+│   ├── Dockerfile
+│   └── package.json
+├── docker-compose.yml
+└── readme.md
 ```
 
-## Notes
-- This structure includes the main folders and key files from both client and server.
-- Some deeply nested generated/database files are intentionally abbreviated with `...`.
+## API Modules
+
+Base API prefix: `/api`
+
+- `/api/users`:
+	- `POST /register`
+	- `POST /login`
+	- `POST /refresh`
+	- `POST /logout` (auth required)
+	- `GET /profile` (auth required)
+	- `PUT /profile` (auth required)
+- `/api/budget`:
+	- `POST /set` (auth required)
+	- `GET /get` (auth required)
+	- `DELETE /delete` (auth required)
+- `/api/transactions`:
+	- `POST /` (auth required)
+	- `GET /` (auth required)
+	- `DELETE /:id` (auth required)
+	- `GET /summary` (auth required)
+- `/api/chat`:
+	- `POST /ask` (auth required)
+
+## Prerequisites
+
+- Node.js 20+
+- pnpm 10+
+- Docker + Docker Compose (for containerized run)
+- PostgreSQL (only for non-Docker local backend setup)
+
+## Environment Variables
+
+### Backend (`server/.env`)
+
+Copy `server/.env.example` to `server/.env` and configure values:
+
+```env
+PORT=5000
+ACCESS_SECRET_KEY=your_access_secret
+REFRESH_SECRET_KEY=your_refresh_secret
+NODE_ENV=development
+DATABASE_URL=postgresql://sital:mysecret@localhost:5555/expense_tracker?schema=public
+GROQ_API_KEY=your_groq_api_key
+```
+
+When running with Docker Compose, `DATABASE_URL` can use the internal host `db:5432`.
+
+### Frontend (`client/.env`)
+
+Copy `client/.env.example` to `client/.env`:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5001/api
+API_BASE_URL_INTERNAL=http://backend:5000/api
+ACCESS_SECRET_KEY=your_access_secret
+```
+
+Notes:
+
+- `NEXT_PUBLIC_API_BASE_URL` is used by browser-side requests.
+- `API_BASE_URL_INTERNAL` is used by server-side frontend requests inside Docker.
+- Keep `ACCESS_SECRET_KEY` aligned with backend if middleware token verification is enabled.
+
+## Run Locally (Without Docker)
+
+### 1) Start Backend
+
+```bash
+cd server
+pnpm install
+pnpm generate
+pnpm migrate
+pnpm start
+```
+
+Backend runs on `http://localhost:5000` by default (or the port from `.env`).
+
+### 2) Start Frontend
+
+```bash
+cd client
+pnpm install
+pnpm dev
+```
+
+Frontend runs on `http://localhost:3000`.
+
+## Run With Docker Compose
+
+From project root:
+
+```bash
+docker compose up --build
+```
+
+Services:
+
+- Frontend: `http://localhost:3001`
+- Backend API: `http://localhost:5001/api`
+- PostgreSQL exposed on host: `localhost:5555`
+
+To stop:
+
+```bash
+docker compose down
+```
+
+To stop and remove volumes:
+
+```bash
+docker compose down -v
+```
+
+## Useful Commands
+
+### Frontend
+
+```bash
+cd client
+pnpm dev
+pnpm build
+pnpm start
+pnpm lint
+```
+
+### Backend
+
+```bash
+cd server
+pnpm start
+pnpm migrate
+pnpm generate
+```
+
+## Common Docker Networking Pitfall
+
+If you see `ECONNREFUSED` in frontend server-side fetches while using Docker, verify:
+
+- Browser URL uses `NEXT_PUBLIC_API_BASE_URL=http://localhost:5001/api`
+- Frontend internal server fetches use `API_BASE_URL_INTERNAL=http://backend:5000/api`
+
+Inside Docker, `localhost` points to the current container, not other services.
+
+## License
+
+This project is for educational/personal use unless you define a separate license.
